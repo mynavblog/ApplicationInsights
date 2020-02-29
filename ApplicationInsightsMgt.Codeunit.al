@@ -1,4 +1,4 @@
-codeunit 50111 "Application Insight Mgt."
+codeunit 50111 "Application Insights Mgt."
 {
     trigger OnRun()
     begin
