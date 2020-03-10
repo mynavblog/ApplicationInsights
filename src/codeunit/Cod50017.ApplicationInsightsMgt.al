@@ -11,6 +11,11 @@ codeunit 50017 "LGS Application Insights Mgt."
         Metrics: Dictionary of [Text, Decimal];
         AppInsightKey: Text;
 
+        StartTime: Dictionary of [text, DateTime];
+        StopTime: Dictionary of [text, DateTime];
+
+
+
     procedure InitKey(value: text)
     begin 
         AppInsightKey := value;
@@ -121,5 +126,36 @@ codeunit 50017 "LGS Application Insights Mgt."
     local procedure SetKey()
     begin
         AppInsightsSDK.Init(AppInsightKey);
+    end;
+
+    procedure StartFunctionExecution(functionId: text)
+    begin 
+    if StartTime.ContainsKey(functionId) then
+        StartTime.Set(functionId,CurrentDateTime)
+    else
+        StartTime.Add(functionId,CurrentDateTime);
+    end;
+
+    procedure StopFunctionExecution(functionId: Text)
+    begin 
+        if StopTime.ContainsKey(functionId) then
+            StopTime.Set(functionId,CurrentDateTime)
+        else
+            StopTime.Add(functionId,CurrentDateTime);
+    end;
+
+    procedure GetFunctionDuration(functionId: Text): Integer
+    begin 
+        exit(GetFunctionStopTime(functionId)-GetFunctionStartTime(functionId));
+    end;
+
+    local procedure GetFunctionStopTime(functionId: Text): DateTime
+    begin 
+        exit(StopTime.Get(functionId));
+    end;
+
+    local procedure GetFunctionStartTime(functionId: Text): DateTime
+    begin 
+        exit(StartTime.Get(functionId));
     end;
 }
