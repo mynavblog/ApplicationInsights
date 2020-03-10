@@ -8,7 +8,7 @@ codeunit 50018 "LGS Application Insights SDK"
     procedure Init(apiKey: Text)
     begin
         AppInsightKey := apiKey;
-        Debugging := true;
+        Debugging := false;
     end;
 
     /// <summary>
