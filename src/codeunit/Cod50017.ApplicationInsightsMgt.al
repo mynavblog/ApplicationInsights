@@ -9,7 +9,12 @@ codeunit 50017 "LGS Application Insights Mgt."
         AppInsightsSDK: Codeunit "LGS Application Insights SDK";
         Properties: Dictionary of [Text, Text];
         Metrics: Dictionary of [Text, Decimal];
-        AppInsightKeyTxt: Label '5be7a45c-81b6-4505-affe-479b464da3e4', Locked = true;
+        AppInsightKey: Text;
+
+    procedure InitKey(value: text)
+    begin 
+        AppInsightKey := value;
+    end;
 
     procedure AddProperty(PropertyName: Text; PropertyValue: Text)
     begin
@@ -112,9 +117,9 @@ codeunit 50017 "LGS Application Insights Mgt."
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Action, StrSubstNo('%1.%2', ObjectName, ActionName));
     end;
-
+    
     local procedure SetKey()
     begin
-        AppInsightsSDK.Init(AppInsightKeyTxt);
+        AppInsightsSDK.Init(AppInsightKey);
     end;
 }
