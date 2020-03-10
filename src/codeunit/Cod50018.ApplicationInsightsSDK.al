@@ -8,7 +8,7 @@ codeunit 50018 "LGS Application Insights SDK"
     procedure Init(apiKey: Text)
     begin
         AppInsightKey := apiKey;
-        Debugging := false;
+        Debugging := true;
     end;
 
     /// <summary>
@@ -113,9 +113,14 @@ codeunit 50018 "LGS Application Insights SDK"
         PropValue: Text;
         Result: Text;
     begin
+        if AppInsightKey = '' then
+            exit;
+            
         // Build the JSON data
         JSON.Add('name', 'ALExtension.Event');
-        TimeStamp := Format(CurrentDateTime(), 0, '<Year4>-<Month,2>-<Day,2>T<Hours24,2>:<Minutes,2>:<Seconds,2><Second dec.>');
+        //TimeStamp := Format(CurrentDateTime(), 0, '<Year4>-<Month,2>-<Day,2>T<Hours24,2>:<Minutes,2>:<Seconds,2><Second dec.>');
+        TimeStamp := Format(CurrentDateTime(), 0, 9);
+
         JSON.Add('time', TimeStamp);
         JSON.Add('iKey', AppInsightKey);
 
