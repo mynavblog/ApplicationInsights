@@ -1,11 +1,10 @@
-codeunit 50110 "Application Insights SDK"
+codeunit 50018 "LGS Application Insights SDK"
 {
     var
         AppInsightKey: Text;
         Debugging: Boolean;
         UrlTxt: label 'https://dc.services.visualstudio.com/v2/track', Locked = true;
 
-    [NonDebuggable]
     procedure Init(apiKey: Text)
     begin
         AppInsightKey := apiKey;
@@ -36,7 +35,7 @@ codeunit 50110 "Application Insights SDK"
     /// <param name="SeverityLevel">Severity of the message Information, Verbose, Warning, Error, Critical</param>
     /// <param name="Properties">Dictionary of the trace custom properties seen on the trace view in Application Insight</param>
     /// <see cref="https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-trace-telemetry"/>
-    procedure TrackTrace(Message: Text; SeverityLevel: Enum "Trace Severity"; Properties: Dictionary of [Text, Text]): Text
+    procedure TrackTrace(Message: Text; SeverityLevel: Option Information,Verbose,Warning,Error,Critical; Properties: Dictionary of [Text, Text]): Text
     var
         JSONEventData: JsonObject;
         EmptyDictionary: Dictionary of [Text, Decimal];
@@ -53,7 +52,7 @@ codeunit 50110 "Application Insights SDK"
     /// </summary>
     /// <param name="UsageObjectType">Type of object which was used such as Page, Report, Action value is imported to operation_Name field</param>
     /// <param name="ObjectName">Type of object which was used</param>
-    procedure TrackObjectUsage(UsageObjectType: Enum "Usage Object Type"; ObjectName: Text): Text
+    procedure TrackObjectUsage(UsageObjectType: Option "Page","Report","Action"; ObjectName: Text): Text
     var
         JSONEventData: JsonObject;
         EmptyMetrics: Dictionary of [Text, Decimal];
@@ -78,7 +77,7 @@ codeunit 50110 "Application Insights SDK"
     /// <param name="Properties">Dictionary of the exception properties seen in Application Insight</param>
     /// <param name="Metrics">Dictionary of the exception metrics seen on in Application Insight as decimal values</param>
     /// <see cref="https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-exception-telemetry"/>
-    procedure TrackException(ProblemId: Text; Message: Text; SeverityLevel: Enum "Trace Severity"; Properties: Dictionary of [Text, Text]; Metrics: Dictionary of [Text, Decimal]): Text
+    procedure TrackException(ProblemId: Text; Message: Text; SeverityLevel: Option Information,Verbose,Warning,Error,Critical; Properties: Dictionary of [Text, Text]; Metrics: Dictionary of [Text, Decimal]): Text
     var
         JSONEventData: JsonObject;
         JSONException: JsonObject;

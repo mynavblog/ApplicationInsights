@@ -1,4 +1,4 @@
-codeunit 50111 "Application Insights Mgt."
+codeunit 50017 "LGS Application Insights Mgt."
 {
     trigger OnRun()
     begin
@@ -6,10 +6,9 @@ codeunit 50111 "Application Insights Mgt."
     end;
 
     var
-        AppInsightsSDK: Codeunit "Application Insights SDK";
+        AppInsightsSDK: Codeunit "LGS Application Insights SDK";
         Properties: Dictionary of [Text, Text];
         Metrics: Dictionary of [Text, Decimal];
-        [NonDebuggable]
         AppInsightKeyTxt: Label '5be7a45c-81b6-4505-affe-479b464da3e4', Locked = true;
 
     procedure AddProperty(PropertyName: Text; PropertyValue: Text)
@@ -36,7 +35,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure ExceptionError(Id: Text; ExceptionMsg: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackException(Id, ExceptionMsg, SeverityLevel::Error, Properties, Metrics);
@@ -44,7 +43,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure ExceptionCritical(Id: Text; ExceptionMsg: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackException(Id, ExceptionMsg, SeverityLevel::Critical, Properties, Metrics);
@@ -52,7 +51,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure ExceptionWarning(Id: Text; ExceptionMsg: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackException(Id, ExceptionMsg, SeverityLevel::Warning, Properties, Metrics);
@@ -60,7 +59,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TraceInformation(TraceText: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Information, Properties);
@@ -68,7 +67,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TraceWarning(TraceText: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Warning, Properties);
@@ -76,7 +75,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TraceError(TraceText: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Error, Properties);
@@ -84,7 +83,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TraceCritical(TraceText: Text)
     var
-        SeverityLevel: Enum "Trace Severity";
+        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Critical, Properties);
@@ -92,7 +91,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TrackPageOpen(ObjectName: Text)
     var
-        UsageObjectType: Enum "Usage Object Type";
+        UsageObjectType: Option "Page","Report","Action";
     begin
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Page, ObjectName);
@@ -100,7 +99,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TrackReportOpen(ObjectName: Text)
     var
-        UsageObjectType: Enum "Usage Object Type";
+        UsageObjectType: Option "Page","Report","Action";
     begin
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Report, ObjectName);
@@ -108,7 +107,7 @@ codeunit 50111 "Application Insights Mgt."
 
     procedure TrackRunAction(ObjectName: Text; ActionName: Text)
     var
-        UsageObjectType: Enum "Usage Object Type";
+        UsageObjectType: Option "Page","Report","Action";
     begin
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Action, StrSubstNo('%1.%2', ObjectName, ActionName));
