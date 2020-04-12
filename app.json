@@ -1,25 +1,24 @@
 {
   "id": "a6a6394c-3914-420b-b8f3-280bb300802e",
-  "name": "Application Insights",
-  "publisher": "Liberty Grove",
+  "name": "Application Insights AL SDK",
+  "publisher": "Dmitry Katson",
   "brief": "",
   "description": "",
   "version": "1.0.0.0",
-  "compatibilityId": "1.0.0.0",
-  "privacyStatement": "",
   "EULA": "",
   "help": "",
   "url": "",
   "logo": "",
-  "capabilities": [],
   "dependencies": [],
   "screenshots": [],
-  "platform": "11.0.0.0",
-  "application": "11.0.0.0",
+  "platform": "16.0.0.0",
+  "application": "16.0.0.0",
   "showMyCode": true,
-  "runtime": "1.0",
-  "idRange": {
-    "from": 50017,
-    "to": 50018
-  }
+  "runtime": "5.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50112
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-codeunit 50017 "LGS Application Insights Mgt."
+codeunit 50111 "Application Insights Mgt."
 {
     trigger OnRun()
     begin
@@ -6,7 +6,7 @@ codeunit 50017 "LGS Application Insights Mgt."
     end;
 
     var
-        AppInsightsSDK: Codeunit "LGS Application Insights SDK";
+        AppInsightsSDK: Codeunit "Application Insights SDK";
         Properties: Dictionary of [Text, Text];
         Metrics: Dictionary of [Text, Decimal];
         AppInsightKey: Text;
@@ -14,10 +14,8 @@ codeunit 50017 "LGS Application Insights Mgt."
         StartTime: Dictionary of [text, DateTime];
         StopTime: Dictionary of [text, DateTime];
 
-
-
     procedure InitKey(value: text)
-    begin 
+    begin
         AppInsightKey := value;
     end;
 
@@ -45,7 +43,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure ExceptionError(Id: Text; ExceptionMsg: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackException(Id, ExceptionMsg, SeverityLevel::Error, Properties, Metrics);
@@ -53,7 +51,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure ExceptionCritical(Id: Text; ExceptionMsg: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackException(Id, ExceptionMsg, SeverityLevel::Critical, Properties, Metrics);
@@ -61,7 +59,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure ExceptionWarning(Id: Text; ExceptionMsg: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackException(Id, ExceptionMsg, SeverityLevel::Warning, Properties, Metrics);
@@ -69,7 +67,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TraceInformation(TraceText: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Information, Properties);
@@ -77,7 +75,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TraceWarning(TraceText: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Warning, Properties);
@@ -85,7 +83,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TraceError(TraceText: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Error, Properties);
@@ -93,7 +91,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TraceCritical(TraceText: Text)
     var
-        SeverityLevel: Option Information,Verbose,Warning,Error,Critical;
+        SeverityLevel: Enum "Trace Severity";
     begin
         SetKey();
         AppInsightsSDK.TrackTrace(TraceText, SeverityLevel::Critical, Properties);
@@ -101,7 +99,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TrackPageOpen(ObjectName: Text)
     var
-        UsageObjectType: Option "Page","Report","Action";
+        UsageObjectType: Enum "Usage Object Type";
     begin
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Page, ObjectName);
@@ -109,7 +107,7 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TrackReportOpen(ObjectName: Text)
     var
-        UsageObjectType: Option "Page","Report","Action";
+        UsageObjectType: Enum "Usage Object Type";
     begin
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Report, ObjectName);
@@ -117,45 +115,45 @@ codeunit 50017 "LGS Application Insights Mgt."
 
     procedure TrackRunAction(ObjectName: Text; ActionName: Text)
     var
-        UsageObjectType: Option "Page","Report","Action";
+        UsageObjectType: Enum "Usage Object Type";
     begin
         SetKey();
         AppInsightsSDK.TrackObjectUsage(UsageObjectType::Action, StrSubstNo('%1.%2', ObjectName, ActionName));
     end;
-    
+
     local procedure SetKey()
     begin
         AppInsightsSDK.Init(AppInsightKey);
     end;
 
     procedure StartFunctionExecution(functionId: text)
-    begin 
-    if StartTime.ContainsKey(functionId) then
-        StartTime.Set(functionId,CurrentDateTime)
-    else
-        StartTime.Add(functionId,CurrentDateTime);
+    begin
+        if StartTime.ContainsKey(functionId) then
+            StartTime.Set(functionId, CurrentDateTime)
+        else
+            StartTime.Add(functionId, CurrentDateTime);
     end;
 
     procedure StopFunctionExecution(functionId: Text)
-    begin 
+    begin
         if StopTime.ContainsKey(functionId) then
-            StopTime.Set(functionId,CurrentDateTime)
+            StopTime.Set(functionId, CurrentDateTime)
         else
-            StopTime.Add(functionId,CurrentDateTime);
+            StopTime.Add(functionId, CurrentDateTime);
     end;
 
     procedure GetFunctionDuration(functionId: Text): Integer
-    begin 
-        exit(GetFunctionStopTime(functionId)-GetFunctionStartTime(functionId));
+    begin
+        exit(GetFunctionStopTime(functionId) - GetFunctionStartTime(functionId));
     end;
 
     local procedure GetFunctionStopTime(functionId: Text): DateTime
-    begin 
+    begin
         exit(StopTime.Get(functionId));
     end;
 
     local procedure GetFunctionStartTime(functionId: Text): DateTime
-    begin 
+    begin
         exit(StartTime.Get(functionId));
     end;
 }
