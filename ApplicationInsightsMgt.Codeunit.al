@@ -134,6 +134,15 @@ codeunit 50111 "Application Insights Mgt."
             StartTime.Add(functionId, CurrentDateTime);
     end;
 
+    procedure TrackExecutionTime(functionId: Text)
+    begin
+        StopFunctionExecution(functionId);
+        InitKey(AppInsightKey);
+        AddMetric('duration', GetFunctionDuration(functionId));
+        CustomEvent(functionId);
+    end;
+
+
     procedure StopFunctionExecution(functionId: Text)
     begin
         if StopTime.ContainsKey(functionId) then
