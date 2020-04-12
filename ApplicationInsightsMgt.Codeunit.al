@@ -140,6 +140,9 @@ codeunit 50111 "Application Insights Mgt."
         InitKey(AppInsightKey);
         AddMetric('duration', GetFunctionDuration(functionId));
         CustomEvent(functionId);
+
+        ClearMetrics();
+        ClearProperties();
     end;
 
 
@@ -164,5 +167,15 @@ codeunit 50111 "Application Insights Mgt."
     local procedure GetFunctionStartTime(functionId: Text): DateTime
     begin
         exit(StartTime.Get(functionId));
+    end;
+
+    local procedure ClearMetrics()
+    begin
+        Clear(Metrics);
+    end;
+
+    local procedure ClearProperties()
+    begin
+        Clear(Properties);
     end;
 }
