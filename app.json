@@ -1,0 +1,24 @@
+{
+  "id": "a6a6394c-3914-420b-b8f3-280bb300802e",
+  "name": "Application Insights AL SDK",
+  "publisher": "Dmitry Katson",
+  "brief": "",
+  "description": "",
+  "version": "1.0.0.0",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "17.0.0.0",
+  "application": "17.0.0.0",
+  "showMyCode": true,
+  "runtime": "6.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50112
+    }
+  ]
+}
