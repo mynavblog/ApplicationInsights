@@ -1,3 +1,5 @@
 {
-    "al.defaultLaunchConfigurationName": "Your own server"
+    "al.defaultLaunchConfigurationName": "Your own server",
+    "bdev-al-xml-doc.enableDocComments": false,
+    "bdev-al-xml-doc.checkProcedureDocumentation": false
 }
